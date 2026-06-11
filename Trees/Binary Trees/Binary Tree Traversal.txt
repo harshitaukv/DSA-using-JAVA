@@ -1,0 +1,135 @@
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+
+        BinaryTree bt = new BinaryTree();
+
+        bt.insert(1);
+        bt.insert(2);
+        bt.insert(3);
+        bt.insert(4);
+        bt.insert(5);
+        bt.insert(6);
+        bt.insert(7);
+
+        System.out.println("Inorder:");
+        bt.inorder(bt.root);
+
+        System.out.println("\nPreorder:");
+        bt.preorder(bt.root);
+
+        System.out.println("\nPostorder:");
+        bt.postorder(bt.root);
+
+        // System.out.println("\nLevel Order:");
+        // bt.levelOrder();
+    
+         // Delete node
+        // bt.delete(2);
+
+        // System.out.println("\nInorder after deleting:");
+        // bt.inorder(bt.root);
+
+        // System.out.println("\nHeight: " + bt.height(bt.root));
+        // System.out.println("Total Nodes: " + bt.countNodes(bt.root));
+        // System.out.println("Leaf Nodes: " + bt.countLeafNodes(bt.root));
+    
+    }
+}
+
+class BinaryTree {
+
+    TreeNode root;
+
+    // Insert (Level Order)
+    void insert(int data) { // 4
+        TreeNode newNode = new TreeNode(data);
+
+        if (root == null) {
+            root = newNode;
+            return;
+        }
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        
+        while (!q.isEmpty()) {
+            TreeNode temp = q.poll(); 
+            
+            if (temp.left == null) {
+                temp.left = newNode;
+                return;
+            } else {
+                q.add(temp.left);
+            }
+
+            if (temp.right == null) {
+                temp.right = newNode;
+                return;
+            } else {
+                q.add(temp.right);
+            }
+        }
+    }
+
+    // Inorder (LNR)
+    void inorder(TreeNode node)  // 1
+    {
+        if (node == null) return;
+
+        inorder(node.left);
+        System.out.print(node.data + " ");
+        inorder(node.right);
+    }
+    
+    // Preorder (NLR)
+    void preorder(TreeNode node) {
+        if (node == null) return;
+
+        System.out.print(node.data + " ");
+        preorder(node.left);
+        preorder(node.right);
+    }
+
+    // Postorder (LRN)
+    void postorder(TreeNode node) {
+        if (node == null) return;
+
+        postorder(node.left);
+        postorder(node.right);
+        System.out.print(node.data + " ");
+    }
+
+    // Level Order (BFS)
+    void levelOrder() {
+        if (root == null) return;
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        // []
+        while (!q.isEmpty()) {
+            TreeNode temp = q.poll(); // 4
+            System.out.print(temp.data + " ");
+
+            if (temp.left != null)
+                q.add(temp.left);
+
+            if (temp.right != null)
+                q.add(temp.right);
+        }
+    }
+}
+
+class TreeNode {
+    int data;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+

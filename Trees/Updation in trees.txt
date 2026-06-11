@@ -1,0 +1,63 @@
+import java.util.*;
+class TreeNode {
+    int data;
+    ArrayList<TreeNode> children;
+
+    TreeNode(int data) {
+        this.data = data;
+        children = new ArrayList<>();
+    }
+}
+public class Main {
+    static boolean update(TreeNode node, int oldValue, int newValue) {
+        if (node == null)
+            return false;
+        if (node.data == oldValue) {
+            node.data = newValue;
+            return true;
+        }
+        for (TreeNode child : node.children) {
+            if (update(child, oldValue, newValue))
+                return true;
+        }
+        return false;
+    }
+    static void display(TreeNode node) {
+        if (node == null)
+            return;
+        System.out.print(node.data + " -> ");
+        for (TreeNode child : node.children) {
+            System.out.print(child.data + " ");
+        }
+        System.out.println();
+
+        for (TreeNode child : node.children) {
+            display(child);
+        }
+    }
+    public static void main(String[] args) {
+
+        TreeNode root = new TreeNode(1);
+
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+
+        root.children.add(n2);
+        root.children.add(n3);
+        root.children.add(n4);
+
+        n2.children.add(new TreeNode(5));
+        n2.children.add(new TreeNode(6));
+
+        n3.children.add(new TreeNode(7));
+
+        System.out.println("Before Update:");
+        display(root);
+
+        update(root, 2, 20);
+
+        System.out.println("\nAfter Update:");
+        display(root);
+    }
+}
